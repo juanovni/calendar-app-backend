@@ -1,16 +1,26 @@
 const { response } = require('express'); // No vuelve a hacer la carga porque esta en memoria
-const Users = require("../models/User")
+const User = require("../models/User");
 
 const addUser = async (req, res = response) => {
     try {
-        const user = Users(req.body);
+        const { name, email, password } = req.body;
+        let user = await User.findOne({ email });
 
+        if (user) {
+            res.status(400).json({
+                ok: false,
+                msg: 'Un usuario existe con ese correo',
+            })
+        }
+        user = User(req.body);
         await user.save();
 
         res.status(201).json({
             ok: true,
             msg: 'Create User',
+            id: User.id
         })
+
     } catch (error) {
         console.log(error)
         return res.status(500).json({
