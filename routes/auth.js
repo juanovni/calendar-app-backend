@@ -6,10 +6,10 @@
 
 const { Router } = require("express");
 const { check } = require('express-validator');
-const route = Router();
-
 const { validateFields } = require("../middlewares/validate-fields")
 const { addUser, loginUser, renewToken } = require("../controllers/auth");
+
+const route = Router();
 
 route.post("/new",
     [
