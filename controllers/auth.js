@@ -4,14 +4,15 @@ const { validationResult } = require('express-validator');
 
 const addUser = (req, res = response) => {
     const { name, email, password } = req.body;
-    const errors = validationResult(req);
+    // se reemplazo todo esto con ayuda del middleware validateFields
+    /* const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(400).json({
             ok: false,
             errors: errors.mapped(),
         })
-    }
+    } */
 
     /* if (name.length < 5) {
         return res.status(400).json({
@@ -31,14 +32,14 @@ const addUser = (req, res = response) => {
 
 const loginUser = (req, res = response) => {
     const { name, password } = req.body;
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            ok: false,
-            errors: errors.mapped(),
-        })
-    }
+    /*  const errors = validationResult(req);
+ 
+     if (!errors.isEmpty()) {
+         return res.status(400).json({
+             ok: false,
+             errors: errors.mapped(),
+         })
+     } */
     res.status(200).json({
         ok: true,
         msg: 'Login User',
