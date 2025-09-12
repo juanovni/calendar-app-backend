@@ -3,6 +3,14 @@ const { response } = require('express'); // No vuelve a hacer la carga porque es
 
 const addUser = (req, res = response) => {
     const { name, email, password } = req.body;
+
+    if (name.length < 5) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'El nombre debe tener 5 letras',
+        })
+    }
+
     res.json({
         ok: true,
         msg: 'Create User',
