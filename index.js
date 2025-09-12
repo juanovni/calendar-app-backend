@@ -1,11 +1,12 @@
 const express = require("express");
 require('dotenv').config(); // variables de entorno
-
+const { dbConntection } = require("./database/config")
 
 // CREAR SERVIDOR EXPRESS
 const app = express();
 
-
+// DB
+dbConntection();
 
 // MIDDEWLARE - sSe ejecutan antes de cualquier PETICIN GET, POST
 app.use(express.static('public'));
