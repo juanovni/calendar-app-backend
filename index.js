@@ -11,6 +11,9 @@ const app = express();
 app.use(express.static('public'));
 
 
+// POST Y PARSE DEL BODY
+app.use(express.json());
+
 // PETICIONES
 app.use('/api/auth', require('./routes/auth'))
 /* app.get("/", (req, resp) => {
