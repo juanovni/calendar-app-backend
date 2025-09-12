@@ -12,6 +12,7 @@ app.use(express.static('public'));
 
 
 // PETICIONES
+app.use('/api/auth', require('./routes/auth'))
 /* app.get("/", (req, resp) => {
     resp.json({
         ok: true,
