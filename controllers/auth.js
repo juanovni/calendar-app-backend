@@ -1,5 +1,6 @@
 const { response } = require('express'); // No vuelve a hacer la carga porque esta en memoria
 const User = require("../models/User");
+const bcrypt = require("bcryptjs")
 
 const addUser = async (req, res = response) => {
     try {
@@ -12,7 +13,12 @@ const addUser = async (req, res = response) => {
                 msg: 'Un usuario existe con ese correo',
             })
         }
-        user = User(req.body);
+
+        user = new User(req.body);
+        // Encriptar contrasna
+        const salt = bcrypt.genSaltSync(); // default 10
+        user.password = bcrypt.hashSync(password, salt);
+
         await user.save();
 
         res.status(201).json({
