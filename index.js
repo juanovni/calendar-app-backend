@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config(); // variables de entorno
 
 
 // CREAR SERVIDOR EXPRESS
@@ -19,6 +20,6 @@ app.use(express.static('public'));
  */
 
 // ESCUCHA PETICIONES
-app.listen("4000", () => {
-    console.log("Servidor correriendo en el puerto 4000")
+app.listen(process.env.PORT, () => {
+    console.log(`ervidor correriendo en el puerto ${process.env.PORT}`)
 })
