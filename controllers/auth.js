@@ -1,17 +1,26 @@
 const { response } = require('express'); // No vuelve a hacer la carga porque esta en memoria
+const { validationResult } = require('express-validator');
 
 
 const addUser = (req, res = response) => {
     const { name, email, password } = req.body;
+    const errors = validationResult(req);
 
-    if (name.length < 5) {
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            ok: false,
+            errors: errors.mapped(),
+        })
+    }
+
+    /* if (name.length < 5) {
         return res.status(400).json({
             ok: false,
             msg: 'El nombre debe tener 5 letras',
         })
-    }
+    } */
 
-    res.json({
+    res.status(201).json({
         ok: true,
         msg: 'Create User',
         name: name,
@@ -22,8 +31,15 @@ const addUser = (req, res = response) => {
 
 const loginUser = (req, res = response) => {
     const { name, password } = req.body;
+    const errors = validationResult(req);
 
-    res.json({
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            ok: false,
+            errors: errors.mapped(),
+        })
+    }
+    res.status(200).json({
         ok: true,
         msg: 'Login User',
         name: name,
