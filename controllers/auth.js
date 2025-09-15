@@ -1,6 +1,7 @@
 const { response } = require('express'); // No vuelve a hacer la carga porque esta en memoria
 const User = require("../models/User");
 const bcrypt = require("bcryptjs")
+const { generateJWT } = require("../helpers/jwt")
 
 const addUser = async (req, res = response) => {
     try {
@@ -21,11 +22,15 @@ const addUser = async (req, res = response) => {
 
         await user.save();
 
+        // GENERAR UN TOKEN
+        const token = await generateJWT(user.id, user.name);
+
         res.status(201).json({
             ok: true,
             msg: 'Create User',
-            id: User.id,
-            name: User.name
+            id: user.id,
+            name: user.name,
+            token
         })
 
     } catch (error) {
@@ -78,12 +83,17 @@ const loginUser = async (req, res = response) => {
             })
         }
 
+        // GENERAR UN TOKEN
+        const token = await generateJWT(user.id, user.name)
+
         res.status(200).json({
             ok: true,
             msg: 'Login User',
             id: user.id,
-            name: user.name
+            name: user.name,
+            token
         })
+
     } catch (error) {
         console.log(error)
         return res.status(500).json({
