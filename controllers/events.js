@@ -2,9 +2,12 @@ const { response } = require('express'); // No vuelve a hacer la carga porque es
 const Event = require("../models/Event");
 
 const getEvents = async (req, res = response) => {
+
+    const events = await Event.find().populate('user', 'name');
+
     res.status(201).json({
         ok: true,
-        msg: 'Get Events',
+        events
     })
 }
 
@@ -17,16 +20,15 @@ const addEvents = async (req, res = response) => {
 
         await eventDB.save();
 
-
         res.status(201).json({
             ok: true,
-            msg: 'Add Events',
+            event: eventDB,
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: "Error al crear el user",
+            msg: "Error al crear un evento",
         })
     }
 
