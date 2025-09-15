@@ -20,6 +20,9 @@ app.use(express.json());
 
 // PETICIONES
 app.use('/api/auth', require('./routes/auth'))
+app.use('/api/events', require('./routes/events'))
+
+
 // example
 /* app.get("/", (req, resp) => {
     resp.json({
