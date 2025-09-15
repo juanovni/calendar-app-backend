@@ -15,7 +15,7 @@ const addUser = async (req, res = response) => {
         }
 
         user = new User(req.body);
-        // Encriptar contrasna
+        // Encriptar contrasena
         const salt = bcrypt.genSaltSync(); // default 10
         user.password = bcrypt.hashSync(password, salt);
 
@@ -56,15 +56,43 @@ const addUser = async (req, res = response) => {
 
 }
 
-const loginUser = (req, res = response) => {
-    const { name, password } = req.body;
+const loginUser = async (req, res = response) => {
+    const { email, password } = req.body;
 
-    res.status(200).json({
-        ok: true,
-        msg: 'Login User',
-        name: name,
-        password: password
-    })
+    try {
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            res.status(400).json({
+                ok: false,
+                msg: 'El email o password incorrecto!',
+            })
+        }
+
+        // Confirmar passwords
+        const validPassword = bcrypt.compareSync(password, user.password)
+        if (!validPassword) {
+            res.status(400).json({
+                ok: false,
+                msg: 'El password es incorrecto!',
+            })
+        }
+
+        res.status(200).json({
+            ok: true,
+            msg: 'Login User',
+            id: user.id,
+            name: user.name
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            msg: "Se debe comunicar con el administrador",
+        })
+    }
+
+
 }
 
 const renewToken = (req, res = response) => {
