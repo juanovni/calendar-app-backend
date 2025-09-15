@@ -105,11 +105,30 @@ const loginUser = async (req, res = response) => {
 
 }
 
-const renewToken = (req, res = response) => {
-    res.json({
-        ok: true,
-        msg: 'Renew Token'
-    })
+const renewToken = async (req, res = response) => {
+
+    const uid = req.uid;
+    const name = req.name;
+
+
+    try {
+        // GENERAR UN NUEVO TOKEN
+        const token = await generateJWT(uid, name)
+
+        res.json({
+            ok: true,
+            uid,
+            name,
+            token
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            msg: "Se debe comunicar con el administrador",
+        })
+    }
+
 }
 
 
