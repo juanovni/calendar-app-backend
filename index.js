@@ -8,15 +8,15 @@ const app = express();
 // DB
 dbConntection();
 
-// MIDDEWLARE - sSe ejecutan antes de cualquier PETICIN GET, POST
+// MIDDEWLARE - Se ejecuta antes de cualquier peticion GET, POST, DELETE
 app.use(express.static('public'));
 
-
-// POST Y PARSE DEL BODY
+// PARSE DEL BODY <request>
 app.use(express.json());
 
 // PETICIONES
 app.use('/api/auth', require('./routes/auth'))
+// example
 /* app.get("/", (req, resp) => {
     resp.json({
         ok: true,
@@ -26,5 +26,5 @@ app.use('/api/auth', require('./routes/auth'))
 
 // ESCUCHA PETICIONES
 app.listen(process.env.PORT, () => {
-    console.log(`ervidor correriendo en el puerto ${process.env.PORT}`)
+    console.log(`Servidor corriendo en el puerto ${process.env.PORT}`)
 })

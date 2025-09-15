@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs")
 
 const addUser = async (req, res = response) => {
     try {
-        const { name, email, password } = req.body;
+        const { email, password } = req.body;
         let user = await User.findOne({ email });
 
         if (user) {
@@ -24,7 +24,8 @@ const addUser = async (req, res = response) => {
         res.status(201).json({
             ok: true,
             msg: 'Create User',
-            id: User.id
+            id: User.id,
+            name: User.name
         })
 
     } catch (error) {
