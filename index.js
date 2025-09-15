@@ -1,12 +1,16 @@
 const express = require("express");
 require('dotenv').config(); // variables de entorno
 const { dbConntection } = require("./database/config")
+const cors = require("cors")
 
 // CREAR SERVIDOR EXPRESS
 const app = express();
 
 // DB
 dbConntection();
+
+// CORS
+app.use(cors())
 
 // MIDDEWLARE - Se ejecuta antes de cualquier peticion GET, POST, DELETE
 app.use(express.static('public'));
